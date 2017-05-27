@@ -1,8 +1,10 @@
 <?php
 
+//include "my_config.php";
 namespace config;
 
-const TOKEN = 112;
-const MYSQL_USERNAME = 112;
-const MYSQL_PASSWORD = 112;
-const MYSQL_DB = 112;
+const TOKEN = "";
+const MYSQL_HOST = "localhost";
+const MYSQL_USERNAME = "";
+const MYSQL_PASSWORD = "";
+const MYSQL_DB = "";

@@ -5,11 +5,11 @@ class MySQL
     var
         $link;
 
-    function __construct($config = NULL)
+    function __construct()
     {
         include(__DIR__ . "/config.php");
         $this->link = mysqli_connect(
-            "localhost",
+            config\MYSQL_HOST,
             config\MYSQL_USERNAME,
             config\MYSQL_PASSWORD,
             config\MYSQL_DB
@@ -23,6 +23,9 @@ class MySQL
         return mysqli_query($this->link, $this->prepareQuery(func_get_args()));
     }
 
+    public function get_user_info($chat_id) {
+        $this->query("SELECT * FROM users WHERE chat_id = ?s", $chat_id);
+    }
 
     /** Методы защиты ***/
     private function prepareQuery($args)

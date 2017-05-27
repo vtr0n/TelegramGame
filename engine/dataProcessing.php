@@ -1,5 +1,5 @@
 <?php
 
-while (true){
-    
+while (true) {
+    echo 12;
 }
