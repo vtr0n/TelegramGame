@@ -1,7 +1,8 @@
 <?php
 
-//include "my_config.php";
 namespace config;
+
+//include_once "my_config.php";
 
 const TOKEN = "";
 const MYSQL_HOST = "localhost";
