@@ -38,12 +38,48 @@ class MySQL
         $date = strtotime(date('Y-m-d H:i:s'));
 
         $this->query("INSERT INTO users(chat_id, message, status, branch, date) VALUES(?s, ?s, ?s, ?s, ?s)",
-            $chat_id, "/start", "waiting", 0, $date);
+            $chat_id, "A", "Waiting for the timeout", 0, $date);
 
 //        $this->query("INSERT INTO save(chat_id, message, status, branch, date) VALUES(?s, ?s, ?s, ?s, ?s)",
 //            $chat_id, "A", 0, 0, $date);
     }
 
+    public function update_user_info($chat_id, $message, $date)
+    {
+        $this->query("UPDATE users SET message = ?s, date = ?s, status = ?s WHERE chat_id = ?s AND status <> 'Waiting for the timeout'",
+            $message, $date, "Waiting for the timeout", $chat_id);
+    }
+
+    public function full_update_users($status, $message, $branch, $chat_id)
+    {
+        $date = date('Y-m-d H:i:s');
+        $date = strtotime($date);
+
+        $this->query("UPDATE users SET status = ?s, message = ?s, branch = ?s, date = ?s WHERE chat_id = ?s",
+            $status, $message, $branch, $date, $chat_id);
+    }
+
+    public function get_new_data()
+    {
+        $resp = $this->query("SELECT * FROM users WHERE status = 'Waiting for the timeout'");
+
+        $arr = array();
+        $i = 0;
+        while ($row = mysqli_fetch_assoc($resp)) {
+            $arr[$i] = $row;
+            $i++;
+        }
+        return $arr;
+    }
+
+    public function get_game_by_branch($branch) {
+        $resp = $this->query("SELECT * FROM game WHERE mid = ?s", $branch);
+        if(!$resp) {
+            return false;
+        } else {
+            return mysqli_fetch_assoc($resp);
+        }
+    }
     /** Методы защиты ***/
     private function prepareQuery($args)
     {

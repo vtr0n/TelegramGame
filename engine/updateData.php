@@ -1,10 +1,11 @@
 <?php
 
-include("TelegramApi.php");
 include("MySQL.php");
+include("TelegramApi.php");
 
 $Telegram = new TelegramApi;
 $MySQL = new MySQL;
+
 
 $offset = 0;
 while (true) {
@@ -22,6 +23,7 @@ while (true) {
                     // Если это новое сообщение
                     if (!empty($resp->result[$i]->message->text) and $user_info["date"] < $user_date) {
                         echo $message = $resp->result[$i]->message->text;
+                        $MySQL->update_user_info($chat_id, $message, $user_date);
                     }
                 }
             }
