@@ -80,6 +80,14 @@ class MySQL
             return mysqli_fetch_assoc($resp);
         }
     }
+
+    public function restart_game($chat_id)
+    {
+        $date = strtotime(date('Y-m-d H:i:s'));
+        $this->query("UPDATE users SET message = ?s, branch = ?s, status = ?s, date = ?s WHERE chat_id = ?s",
+            'A', 0, 'Waiting for the timeout', $date, $chat_id);
+    }
+
     /** Методы защиты ***/
     private function prepareQuery($args)
     {

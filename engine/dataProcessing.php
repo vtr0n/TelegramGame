@@ -21,12 +21,13 @@ while (true) {
             $Current_answers->input_all($current_game["A"], $current_game["B"], $current_game["C"], $current_game["D"]);
 
             if($Current_answers->get_count() > 0) { // Проверяем есть ли такие варианты ответов
-                if(!$Current_answers->get_one($data[$i]["message"])) {
+                if(!$Current_answers->get_one($data[$i]["message"])) { // Если не существует ветки для продолжения
                     $next_branch = $current_branch;
+                } else { // Все хорошо
+                    $next_branch = $current_game[$data[$i]["message"]];
                 }
-                $next_branch = $current_game[$data[$i]["message"]];
-            } else {
-                $next_branch = $current_game[$data[$i]["message"]];
+            } else { // Если конец игры
+                $next_branch = $current_branch;
             }
 
             $next_game = $MySQL->get_game_by_branch($next_branch);
@@ -43,7 +44,7 @@ while (true) {
 
 
                 if($Next_answers->get_count() == 0) { // Если это последнее сообщение в ветви
-                    $MySQL->full_update_users("waiting user input", "", $current_branch, $chat_id);
+                    $MySQL->full_update_users("End game", "", $next_branch, $chat_id);
                 }
                 elseif ($Next_answers->get_count() == 1) {
                     $MySQL->full_update_users(
@@ -58,6 +59,9 @@ while (true) {
                 }
             }
 
+        } else { // Некорректная команда
+            $MySQL->full_update_users("waiting user input", "", $data[$i]["branch"], $data[$i]["chat_id"]);
         }
     }
+    sleep(1);
 }
