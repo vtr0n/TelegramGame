@@ -23,14 +23,13 @@ while (true) {
                     // Если это новое сообщение
                     if (!empty($resp->result[$i]->message->text) and $user_info["date"] < $user_date) {
                         echo $message = $resp->result[$i]->message->text;
-                        if($message == "/restart") { // рестартим
+                        if($message == "/restart") { // рестартим игру
                             $MySQL->restart_game($chat_id);
                         }
                         $MySQL->update_user_info($chat_id, $message, $user_date);
                     }
                 }
             }
-
         }
         $offset = $resp->result[count($resp->result) - 1]->update_id; // Сдвиг для следующих запросов
     }

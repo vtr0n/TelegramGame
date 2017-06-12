@@ -93,6 +93,7 @@ class Answers
             return $this->answ[3];
         }
 
+        return false;
     }
 
     public function dump()
