@@ -2,5 +2,5 @@
 Это движок по созданию игровых квестов в Telegram.
 ### Установка
 [Получите](https://telegram.me/BotFather) API ключ для бота телеграмм.  
-Настройте engine/config.php  
+Настройте engine/config.php и front/config.php  
 Импортируйте структуру MySQL папки SQL.
